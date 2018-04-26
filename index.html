@@ -1,0 +1,75 @@
+<html>
+  <title>My Weather App</title>
+  <head>
+      <title> Weather JQuery</title>
+           
+        <link rel="stylesheet" href="style.css">
+      <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700" rel="stylesheet">
+   
+  </head>
+ <body>
+   <div>
+     <div class="loc"><br> <span id="currentLocation">Retrieving Data</span></div>
+     <div class="temp-class" id="tempclass">
+     <div><span id="currentWeather">Retrieving Data</span></div>
+     <div>Temperature :<span id="currentTemp">Retrieving Data</span></div>
+<!--
+       <div>Pressure :<span id="currentPressure">Loading...</span></div>
+     <div>Humidity :<span id="currentHumidity">Loading...</span></div>
+    
+-->
+     
+<!--   <div>toggle: <a href="#" id="toggle">C/F</a></div> -->
+     </div>
+     
+   </div>
+     
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+     
+     
+     <script >
+         
+                var API_KEY ="d33ec904f7a1a3cda9faef0793c9329a";
+                var celc = false;
+                var wdata;
+                var loc;
+                var cTemp;
+                var Temp = true;
+                var currentTemp;
+
+                $(function(){
+                  $.getJSON('https://ipinfo.io',function(data){
+               
+                    loc = data.loc.split(",");
+          
+                    $.getJSON('https://api.openweathermap.org/data/2.5/weather?id=6167865' + '&APPID=' + API_KEY,function(wdata){
+                   
+//                      var api ='https://api.openweathermap.org/data/2.5/weather?units=imperial&lat='+ loc[0] +'&lon='+ loc[1] + '&APPID=' + API_KEY;
+                      console.log(wdata);
+                      var currentLocation = wdata.name;
+                      var currentWeather = wdata.weather[0].description;
+                      currentTemp = wdata.main.temp;
+                      var currentHighTemp = wdata.main.temp_max;
+                      var currentLowTemp = wdata.main.temp_min;
+                      var currentPressure = wdata.main.pressure;
+                      var currentHumidity = wdata.main.humidity;
+                      var currentWeatherIcon =wdata.weather[0].icon;
+                      var currentWeatherIconURL ='https://openweathermap.org/img/w/'+currentWeatherIcon+'.png';
+
+
+                      $('#currentLocation').html(currentLocation);
+                      $('#currentWeather').html(currentWeather);
+                      $('#currentTemp').html(currentTemp + "F");
+//                  
+                      $('#currentWeatherIconURL').html(currentWeatherIconURL);
+                      $('#tempclass').prepend('<div><img src="'+currentWeatherIconURL+'"</div>');
+              
+                    })
+                  })
+                })
+
+        
+     </script>
+   
+ </body>
+</html>
